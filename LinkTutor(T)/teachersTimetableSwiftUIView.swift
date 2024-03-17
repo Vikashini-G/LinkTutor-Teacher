@@ -31,7 +31,6 @@ struct teachersTimetablePageSwiftUIView: View {
                                 .clipped()
                         }
                     }
-                    .padding(.bottom, 15)
                     .sheet(isPresented: $isShowingFilterViewPopup, content: {
                         VStack {
                             DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])

@@ -8,11 +8,159 @@ struct CustomSectionHeader: View {
     var title: String
 
     var body: some View {
-        Text(title)
-            .font(AppFont.smallSemiBold)
-            .textCase(.none)// Customize background color as needed
+        HStack{
+            Text(title)
+                .font(AppFont.mediumSemiBold)
+                .textCase(.none)// Customize background color as needed
+            Spacer()
+        }
+        .padding(.bottom)
     }
 }
+
+struct addCoursePage: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+  //  @State private var currentUserUID: User?
+  //  @State private var teacherUid: String = ""
+    @State private var skillType: String = ""
+    @State private var academyName: String = ""
+    @State private var className = ""
+    @State private var startTime = Date()
+    @State private var endTime = Date()
+    @State private var classFee : Int = 0
+    @State private var selectedMode: ClassMode = .online
+    @State private var selectedDays: [Day] = []
+    @State private var isTeacherHomePageActive = false
+
+    enum ClassMode: String, CaseIterable {
+        case online = "Online"
+        case offline = "Offline"
+    }
+
+    enum Day: String, CaseIterable {
+        case Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+    }
+
+    var body: some View {
+        
+//        NavigationLink(destination: TeacherHomePage(), isActive: $isTeacherHomePageActive) {
+//                EmptyView()
+//            }
+//            .hidden()
+        
+        
+        NavigationStack{
+            VStack{
+                VStack{
+                    
+                    VStack {
+                        Section(header: CustomSectionHeader(title: "Class Details")) {
+                                List{
+                                    TextField("Skill Type", text: $skillType)
+
+                                    TextField("Academy Name", text: $academyName)
+                                    //                                        .cornerRadius(10)
+                                    TextField("Class Name", text: $className)
+                                    //                                        .cornerRadius(10)
+                                    
+                                    //                                .padding(.bottom, 0)
+                                
+                                .listStyle(.automatic)
+                                .textFieldStyle(.plain)
+                            }
+                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                .frame(height: 200)
+                            
+                            // Choose Days VStack...
+                            DatePicker("Start Time", selection: $startTime, displayedComponents: [ .hourAndMinute])
+                                .datePickerStyle(.compact)
+                            
+                            DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
+                                .datePickerStyle(.compact)
+                        }
+                        
+                        Section(header: CustomSectionHeader(title: "Modes")) {
+                            Picker("Select Mode", selection: $selectedMode) {
+                                ForEach(ClassMode.allCases, id: \.self) { mode in
+                                    Text(mode.rawValue)
+                                }
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                        }
+                        
+                    }
+                    .padding(.bottom, 10)
+                    
+                    VStack(alignment: .leading){
+                        Text("Choose Days")
+                        HStack {
+                            ForEach(Day.allCases, id: \.self) { day in
+                                Text(String(day.rawValue.first!))
+                                    .bold()
+                                    .foregroundColor(.white)
+                                    .frame(width: 30, height: 30)
+                                    .background(selectedDays.contains(day) ? Color.cyan.cornerRadius(10) : Color.gray.cornerRadius(10))
+                                    .onTapGesture {
+                                        if selectedDays.contains(day) {
+                                            selectedDays.removeAll(where: {$0 == day})
+                                        } else {
+                                            selectedDays.append(day)
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                    .padding(.bottom, 10)
+                    
+                    VStack(alignment : .leading){
+                        
+                        Text("Fees")
+                            .fontWeight(.bold)
+                            .font(.system(size: 20).weight(.bold))
+                            .fontDesign(.rounded)
+                        TextField("Class Fee", value: $classFee, formatter: NumberFormatter())
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    Spacer()
+                    Button(action: {
+                        // Handle add class action
+                        viewModel.addCourseData(
+                            skillType: skillType,
+                            academyName: academyName,
+                            className: className,
+                            mode: selectedMode.rawValue,
+                            fees: classFee,
+                            week: selectedDays.map { $0.rawValue },
+                            startTime: startTime.description,
+                            endTime: endTime.description
+                        )
+                        // Activate the navigation to TeacherHomePage
+                        isTeacherHomePageActive = true
+                    }) {
+                        Text("Add Class")
+                            .foregroundColor(.white)
+                            .font(AppFont.mediumSemiBold)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(20)
+                    }
+                }
+            } //v end
+            .padding()
+            .background(Color.background)
+        } //navstack end
+    }
+}
+
+struct addCoursePage_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            addCoursePage()
+        }
+    }
+}
+
 
 ////struct LocationPopupView: View {
 ////    @Binding var isPresented: Bool
@@ -50,16 +198,16 @@ struct CustomSectionHeader: View {
 //    @State  var startTime = Date()
 //    @State  var endTime = Date()
 //   // @State  var locationSearchText = ""
-//   
+//
 //    @State  var classFee = ""
 //    @State  var feeType = ""
 //    @State  var selectedMode: ClassMode = .online
 //  //  @State  var chooseDays: Day = .Monday
 //    @State  var selectedDays: [Day] = []
 //   // @State  var isLocationPopupPresented = false
-//    
-//    
-//   
+//
+//
+//
 //
 //    enum ClassMode: String, CaseIterable {
 //        case online = "Online"
@@ -75,10 +223,10 @@ struct CustomSectionHeader: View {
 //            // Class Details Section
 //            Section(header: CustomSectionHeader(title: "Class Details")) {
 //                TextField("Skill Type", text: $skillType)
-//                    
-//                
-//                
-//                
+//
+//
+//
+//
 //                TextField("Academy Name", text: $academyName)
 //                TextField("Class Name", text: $className)
 //
@@ -104,7 +252,7 @@ struct CustomSectionHeader: View {
 //
 //                DatePicker("Start Time", selection: $startTime, displayedComponents: [ .hourAndMinute])
 //                    .datePickerStyle(.compact)
-//                
+//
 //                DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
 //                    .datePickerStyle(.compact)
 //
@@ -133,7 +281,7 @@ struct CustomSectionHeader: View {
 ////                .pickerStyle(SegmentedPickerStyle())
 ////            }
 ////            .listRowBackground(Color.elavated)
-//            
+//
 //            // Modes Section
 //            Section(header: CustomSectionHeader(title: "Modes")) {
 //                Picker("Select Mode", selection: $selectedMode) {
@@ -144,9 +292,9 @@ struct CustomSectionHeader: View {
 //                .pickerStyle(SegmentedPickerStyle())
 //            }
 //            .listRowBackground(Color.elavated)
-//            
+//
 //            // Buttons Section
-//            
+//
 //            HStack {
 //                Button("Cancel") {
 //                    // Handle cancel action
@@ -161,7 +309,7 @@ struct CustomSectionHeader: View {
 //                           print("Current user UID is nil")
 //                           return
 //                       }
-//                       
+//
 //                       // Convert selectedMode to String
 //                       let modeString = selectedMode.rawValue
 //
@@ -176,7 +324,7 @@ struct CustomSectionHeader: View {
 //                                                endTime: endTime.description, // Convert Date to String
 //                                                teacherUid: "4",
 //                                               currentUserUID: "4")
-//                   
+//
 //                }
 //            }
 //        }
@@ -184,11 +332,11 @@ struct CustomSectionHeader: View {
 //        .background(Color.background)
 //        .scrollContentBackground(.hidden)
 //    }
-//    
-//    
-//  
 //
-//    
+//
+//
+//
+//
 //}
 //
 //struct addCoursePage_Previews: PreviewProvider {
@@ -198,144 +346,3 @@ struct CustomSectionHeader: View {
 //        }
 //    }
 //}
-
-
-struct addCoursePage: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-  //  @State private var currentUserUID: User?
-  //  @State private var teacherUid: String = ""
-    @State private var skillType: String = ""
-    @State private var academyName: String = ""
-    @State private var className = ""
-    @State private var startTime = Date()
-    @State private var endTime = Date()
-    @State private var classFee : Int = 0
-    @State private var selectedMode: ClassMode = .online
-    @State private var selectedDays: [Day] = []
-    @State private var isTeacherHomePageActive = false
-
-    enum ClassMode: String, CaseIterable {
-        case online = "Online"
-        case offline = "Offline"
-    }
-
-    enum Day: String, CaseIterable {
-        case Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
-    }
-
-    var body: some View {
-        
-        NavigationLink(destination: TeacherHomePage(), isActive: $isTeacherHomePageActive) {
-                EmptyView()
-            }
-            .hidden()
-        
-        
-        NavigationStack{
-            
-            VStack{
-                
-                VStack {
-                    Section(header: CustomSectionHeader(title: "Class Details")) {
-                        TextField("Skill Type", text: $skillType)
-                        TextField("Academy Name", text: $academyName)
-                        TextField("Class Name", text: $className)
-                        
-                        
-                        // Choose Days VStack...
-                        
-                                    
-                        
-                        
-                        DatePicker("Start Time", selection: $startTime, displayedComponents: [ .hourAndMinute])
-                                            .datePickerStyle(.compact)
-                        
-                                        DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
-                                            .datePickerStyle(.compact)
-                    }
-                    .listRowBackground(Color.elavated)
-                    
-                    Section(header: CustomSectionHeader(title: "Modes")) {
-                        Picker("Select Mode", selection: $selectedMode) {
-                            ForEach(ClassMode.allCases, id: \.self) { mode in
-                                Text(mode.rawValue)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
-                    
-                    
-                    
-                }
-                .padding(.bottom, 10)
-                
-                VStack(alignment: .leading){
-                    Text("Choose Days")
-                    HStack {
-                        ForEach(Day.allCases, id: \.self) { day in
-                            Text(String(day.rawValue.first!))
-                                .bold()
-                                .foregroundColor(.white)
-                                .frame(width: 30, height: 30)
-                                .background(selectedDays.contains(day) ? Color.cyan.cornerRadius(10) : Color.gray.cornerRadius(10))
-                                .onTapGesture {
-                                    if selectedDays.contains(day) {
-                                        selectedDays.removeAll(where: {$0 == day})
-                                    } else {
-                                        selectedDays.append(day)
-                                    }
-                                }
-                        }
-                    }
-                }
-                .padding(.bottom, 10)
-                
-                VStack(alignment : .leading){
-                    
-                    Text("Fees")
-                        .fontWeight(.bold)
-                        .font(.system(size: 20).weight(.bold))
-                        .fontDesign(.rounded)
-                    TextField("Class Fee", value: $classFee, formatter: NumberFormatter())
-                        .keyboardType(.numberPad)
-                }
-                
-                Spacer()
-                Button(action: {
-                       // Handle add class action
-                       viewModel.addCourseData(
-                           skillType: skillType,
-                           academyName: academyName,
-                           className: className,
-                           mode: selectedMode.rawValue,
-                           fees: classFee,
-                           week: selectedDays.map { $0.rawValue },
-                           startTime: startTime.description,
-                           endTime: endTime.description
-                       )
-
-                       // Activate the navigation to TeacherHomePage
-                       isTeacherHomePageActive = true
-                   }) {
-                       Text("Add Class")
-                           .foregroundColor(.white)
-                           .font(AppFont.mediumSemiBold)
-                           .padding()
-                           .background(Color.blue)
-                           .cornerRadius(20)
-                   }
-                
-                
-            }
-        }
-        .padding()
-    }
-}
-
-struct addCoursePage_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            addCoursePage()
-        }
-    }
-}

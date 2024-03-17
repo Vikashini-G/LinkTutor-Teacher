@@ -11,7 +11,7 @@ struct TeacherHomePage: View{
     @StateObject var viewModel = listClassesScreenModel()
     @State var isShowingFilterViewPopup = false
    
-    
+
     var body: some View{
         NavigationView {
             VStack{

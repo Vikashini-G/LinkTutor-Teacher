@@ -45,6 +45,7 @@
 		0FC738652B8DE7F400566981 /* sectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC738642B8DE7F400566981 /* sectionHeader.swift */; };
 		0FC738672B8DE88000566981 /* classMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC738662B8DE88000566981 /* classMockData.swift */; };
 		0FE4B9372B9052A6008CB61A /* classLocationSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE4B9362B9052A6008CB61A /* classLocationSwiftUIView.swift */; };
+		B1FF461D2BA76A5A00DDBB18 /* TeacherCompleteHomePageSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1FF461C2BA76A5A00DDBB18 /* TeacherCompleteHomePageSwiftUIView.swift */; };
 		DF283B142BA0801A0061FF83 /* enrolledClassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF283B132BA0801A0061FF83 /* enrolledClassCard.swift */; };
 		DF283B162BA086680061FF83 /* enrolledClassCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF283B152BA086680061FF83 /* enrolledClassCardList.swift */; };
 		DF283B182BA097700061FF83 /* updateCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF283B172BA0976F0061FF83 /* updateCourse.swift */; };
@@ -110,6 +111,7 @@
 		0FC738642B8DE7F400566981 /* sectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sectionHeader.swift; sourceTree = "<group>"; };
 		0FC738662B8DE88000566981 /* classMockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = classMockData.swift; sourceTree = "<group>"; };
 		0FE4B9362B9052A6008CB61A /* classLocationSwiftUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = classLocationSwiftUIView.swift; sourceTree = "<group>"; };
+		B1FF461C2BA76A5A00DDBB18 /* TeacherCompleteHomePageSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherCompleteHomePageSwiftUIView.swift; sourceTree = "<group>"; };
 		DF283B132BA0801A0061FF83 /* enrolledClassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enrolledClassCard.swift; sourceTree = "<group>"; };
 		DF283B152BA086680061FF83 /* enrolledClassCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enrolledClassCardList.swift; sourceTree = "<group>"; };
 		DF283B172BA0976F0061FF83 /* updateCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = updateCourse.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				0FC738102B8DE67E00566981 /* ContentView.swift */,
 				0FC7380E2B8DE67E00566981 /* LinkTutor_T_App.swift */,
 				0FC7383A2B8DE6B800566981 /* TeacherHomePage.swift */,
+				B1FF461C2BA76A5A00DDBB18 /* TeacherCompleteHomePageSwiftUIView.swift */,
 				DFCC35F22B9FA0E60087BD00 /* GoogleService-Info.plist */,
 				DF77D2DB2BA0233D000F92D5 /* courseRelated */,
 				0F2EF9912B90845600CFE747 /* teachersTimetableSwiftUIView.swift */,
@@ -433,6 +436,7 @@
 				DF283B162BA086680061FF83 /* enrolledClassCardList.swift in Sources */,
 				0FC738432B8DE6E800566981 /* myProfileView.swift in Sources */,
 				0F3922682B8F20270019ECA5 /* addCoursePage.swift in Sources */,
+				B1FF461D2BA76A5A00DDBB18 /* TeacherCompleteHomePageSwiftUIView.swift in Sources */,
 				0FC738592B8DE7C400566981 /* Notifications.swift in Sources */,
 				DF70D9542B9EF37F00461DF0 /* User.swift in Sources */,
 				0FC7384B2B8DE6F800566981 /* loginPageSwiftUIView.swift in Sources */,
